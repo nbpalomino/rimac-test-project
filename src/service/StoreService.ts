@@ -1,4 +1,4 @@
-import { Service } from "typedi"
+import { Service, Container } from "typedi"
 import { StoreRepository } from "../persistence/repository"
 import { StoreEntity } from "../persistence/entity"
 
@@ -6,7 +6,9 @@ import { StoreEntity } from "../persistence/entity"
 export class StoreService {
     constructor(
        private repository: StoreRepository
-    ) {}
+    ) {
+        this.repository = Container.get(StoreRepository)
+    }
 
     public save(data: any) {
         const entity = new StoreEntity()

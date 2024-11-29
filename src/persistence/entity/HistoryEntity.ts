@@ -3,7 +3,7 @@ import { Entity, Column } from 'typeorm'
 
 @Entity()
 export class HistoryEntity extends BaseEntity {
-    @Column()
+    @Column('varchar')
     endpoint: string
 
     @Column('float', {default: 0})

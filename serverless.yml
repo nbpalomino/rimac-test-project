@@ -1,0 +1,23 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: paalcorp
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: rimac-test
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: rimac-test
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x # Use the appropriate Node.js runtime
+  region: us-east-1   # AWS region
+  timeout: 60
+  environment:
+    NODE_OPTIONS: "--enable-source-maps"
+
+functions:
+  api:
+    handler: ./src/app/lambda/handler.server
+    events:
+      - httpApi: "*"

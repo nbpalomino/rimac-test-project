@@ -2,15 +2,20 @@ import { createClient, RedisClientType } from '@redis/client'
 import { Container } from 'typedi'
 import { logger } from '../../app/utils'
 
+let isConnected = false
+
 export const connectRedis = async () => {
-  const client = await createClient({url: 'redis://127.0.0.1:6379'})
-  .on('error', err => logger.error('Redis Client Error: %s', err))
-  .connect();
+  if(!isConnected) {
+    const client = await createClient({url: process.env.REDIS_URL || 'redis://127.0.0.1:6379'})
+    .on('error', err => logger.error('Redis Client Error: %s', err))
+    .connect();
 
-  const conn = client.isReady ? 'SUCCESS' : 'FAILED'
-  logger.info('Redis connection is: %s', conn)
-
-  Container.set('cache', new Cache(client))
+    const conn = client.isReady ? 'SUCCESS' : 'FAILED'
+    logger.info('Redis connection is: %s', conn)
+    
+    isConnected = true
+    Container.set('cache', new Cache(client))
+  }
 }
 
 export class Cache {    

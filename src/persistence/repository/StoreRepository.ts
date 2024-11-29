@@ -1,12 +1,14 @@
+import { Repository } from "typeorm";
 import { Service } from "typedi"
 import { AppDataSource } from "../database"
 import { StoreEntity } from "../entity/"
 
 @Service()
 export class StoreRepository {
-    constructor(
-        private repository = AppDataSource.getRepository(StoreEntity)
-    ) {}
+    private repository: Repository<StoreEntity>
+    constructor() {
+        this.repository = AppDataSource.getRepository(StoreEntity)
+    }
 
     public findAll() {
         return this.repository.find({

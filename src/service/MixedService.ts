@@ -1,5 +1,5 @@
 import { logger, Pagination } from "../app/utils"
-import { Service } from "typedi"
+import { Service, Container } from "typedi"
 import { MixedRepository } from "../persistence/repository"
 import { SwapiService, Dota2Service, Dota2Hero, SwapiPeople } from "./api"
 
@@ -9,7 +9,11 @@ export class MixedService {
        private repository: MixedRepository,
        private swapiService: SwapiService,
        private dota2Service: Dota2Service,
-    ) {}
+    ) {
+        this.repository = Container.get(MixedRepository)
+        this.swapiService = Container.get(SwapiService)
+        this.dota2Service = Container.get(Dota2Service)
+    }
 
     public async getMixedEndpoints() {
         try {

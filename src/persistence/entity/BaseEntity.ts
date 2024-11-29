@@ -9,7 +9,7 @@ export abstract class BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({name: 'is_deleted', default: false, select: false})
+    @Column({type:'boolean', name: 'is_deleted', default: false})
     isDeleted: boolean
 
     @CreateDateColumn()

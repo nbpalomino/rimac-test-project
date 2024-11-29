@@ -15,12 +15,13 @@ export const AppDataSource = new DataSource({
   migrations: []
 })
 
-export const connectDB = async (): Promise<DataSource> => {
+export const connectDB = async (): Promise<void> => {
     let client: DataSource
     try {
-      client = await AppDataSource.initialize()
-      logger.info('Database connection established!')
-      return client
+      if(!AppDataSource.isInitialized) {
+        client = await AppDataSource.initialize()
+        logger.info('Database connection established!')
+      }
     } catch (err) {
       logger.error('Error connecting to Database: %s', err)
       throw err
